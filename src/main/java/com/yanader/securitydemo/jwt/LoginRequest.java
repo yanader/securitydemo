@@ -1,4 +1,4 @@
-package com.yanader.securitydemo;
+package com.yanader.securitydemo.jwt;
 
 public class LoginRequest {
 
