@@ -48,11 +48,12 @@ public class GreetingsController {
         return "hello admin";
     }
 
-    @PostMapping
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
         try {
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest));
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException e) {
             Map<String, Object> map = new HashMap<>();
             map.put("message", "bad Credentials");
@@ -70,7 +71,7 @@ public class GreetingsController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), ); /////
+        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles ,jwtToken); /////
 
         return ResponseEntity.ok(response);
     }
