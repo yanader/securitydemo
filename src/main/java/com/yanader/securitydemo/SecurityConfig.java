@@ -66,30 +66,30 @@ public class SecurityConfig {
         return new JdbcUserDetailsManager(dataSource);
     }
 
-//    @Bean
-//    public CommandLineRunner initData(UserDetailsService userDetailsService) {
-//        return args -> {
-//            JdbcUserDetailsManager manager = (JdbcUserDetailsManager) userDetailsService;
-//            UserDetails user1 = User.withUsername("user1")
-//                    .password(passwordEncoder().encode("password1"))
-//                    .roles("USER")
-//                    .build();
-//            UserDetails admin = User.withUsername("admin")
-//                    .password(passwordEncoder().encode("adminPassword"))
-//                    .roles("ADMIN")
-//                    .build();
-//
-//            JdbcUserDetailsManager userDetailsManager
-//                = new JdbcUserDetailsManager(dataSource);
-//
-//            if(!manager.userExists("user1")) {
-//                userDetailsManager.createUser(user1);
-//            }
-//            if (!manager.userExists("admin")) {
-//                userDetailsManager.createUser(admin);
-//            }
-//        };
-//    }
+    @Bean
+    public CommandLineRunner initData(UserDetailsService userDetailsService) {
+        return args -> {
+            JdbcUserDetailsManager manager = (JdbcUserDetailsManager) userDetailsService;
+            
+            JdbcUserDetailsManager userDetailsManager
+                = new JdbcUserDetailsManager(dataSource);
+
+            if(!manager.userExists("user1")) {
+                UserDetails user1 = User.withUsername("user1")
+                        .password(passwordEncoder().encode("password1"))
+                        .roles("USER")
+                        .build();
+                userDetailsManager.createUser(user1);
+            }
+            if (!manager.userExists("admin")) {
+                UserDetails admin = User.withUsername("admin")
+                        .password(passwordEncoder().encode("adminPassword"))
+                        .roles("ADMIN")
+                        .build();
+                userDetailsManager.createUser(admin);
+            }
+        };
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
