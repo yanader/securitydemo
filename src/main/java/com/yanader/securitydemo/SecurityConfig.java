@@ -47,6 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) ->
             requests.requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers("/signin").permitAll()
+                    .requestMatchers("/api/public/**").permitAll()
                     .anyRequest().authenticated());
         http.sessionManagement(session ->
                                 session.sessionCreationPolicy(
@@ -70,7 +71,7 @@ public class SecurityConfig {
     public CommandLineRunner initData(UserDetailsService userDetailsService) {
         return args -> {
             JdbcUserDetailsManager manager = (JdbcUserDetailsManager) userDetailsService;
-            
+
             JdbcUserDetailsManager userDetailsManager
                 = new JdbcUserDetailsManager(dataSource);
 

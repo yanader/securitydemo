@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @PostMapping("/users")
+    @PostMapping("/public/users")
     public String createUser(@RequestParam String username,
                              @RequestParam String password,
                              @RequestParam String role) {
