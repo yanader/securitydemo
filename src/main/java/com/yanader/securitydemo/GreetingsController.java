@@ -14,10 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,13 +84,13 @@ public class GreetingsController {
         profile.put("username", userDetails.getUsername());
         profile.put("roles", userDetails.getAuthorities()
                 .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList())
+        );
         profile.put("message", "This is user-specific content from backend");
 
         return ResponseEntity.ok(profile);
     }
-
 
 }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -45,7 +46,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) ->
-            requests.requestMatchers("/h2-console/**").permitAll()
+            requests.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //This allows the preflight options request that is otherwise missed (for some reason)
+                    .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers("/signin").permitAll()
                     .requestMatchers("/api/public/**").permitAll()
                     .anyRequest().authenticated());
@@ -101,4 +103,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception{
         return builder.getAuthenticationManager();
     }
+
+
 }
